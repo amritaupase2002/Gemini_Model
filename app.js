@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const cors = require("cors");
+require("dotenv").config();
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -16,7 +17,7 @@ app.post("/getResponse", async (req, res) => {
     const question = req.body.question;
     console.log("Received question:", question);
 
-    const genAI = new GoogleGenerativeAI("AIzaSyA7n5AQkuX0-47k7dhpr4UYhBbC-JQcH4Y");
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const result = await model.generateContent(question);
